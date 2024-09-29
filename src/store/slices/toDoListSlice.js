@@ -19,9 +19,25 @@ const initialState = {
 const toDoListSlice = createSlice({
   initialState,
   name: "tasks",
-  reducers: {},
+  reducers: {
+    removeTask: (state, { payload }) => {
+      const foundTaskIndex = state.tasks.findIndex((t) => t.id === payload);
+      if (foundTaskIndex !== -1) {
+        state.tasks.splice(foundTaskIndex, 1);
+      }
+    },
+    createTask: (state, { payload }) => {
+      state.tasks.push({
+        ...payload,
+        isDone: false,
+        id: uuidv4(),
+      });
+    },
+  },
 });
 
-const { reducer } = toDoListSlice;
+const { reducer, actions } = toDoListSlice;
+
+export const { removeTask, createTask } = actions;
 
 export default reducer;
